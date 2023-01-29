@@ -39,10 +39,10 @@ public class WordApprover
         
     }
 
-    public void WriteApproved() 
+    public async Task WriteApprovedAsync(CancellationToken token) 
     {
         var totalPermutations = (long)wordList1.Length * wordList2.Length;
-        Console.WriteLine($"{DateTime.Now} - {destinationFile.Name} - Börjar leta giltiga ord bland {totalPermutations:N0} möjliga kombinationer. Tidigare körningar hade redan hittat {approved.Count:N0} ord.");
+        Console.WriteLine($"{DateTime.Now} - {destinationFile.Name} - Börjar leta giltiga ord bland {totalPermutations:N0} möjliga kombinationer. Tidigare körningar hade redan hittat {approved.Count:N0} ord på {this.checkpointData.Count:N0} iterationer.");
         
         long iterations = 0;
         
@@ -51,7 +51,6 @@ public class WordApprover
 
         var oldTmpFile = new FileInfo(tmpFile.FullName + ".old");
         var newTmpFile = new FileInfo(tmpFile.FullName + ".new");
-
 
         foreach (var p0 in wordList1)
         {
@@ -76,7 +75,7 @@ public class WordApprover
                     {
                         File.Move(tmpFile.FullName, oldTmpFile.FullName);
                     }
-                    File.WriteAllLines(newTmpFile.FullName, approved);
+                    await File.WriteAllLinesAsync(newTmpFile.FullName, approved, token);
                     File.Move(newTmpFile.FullName, tmpFile.FullName);
 
                     oldTmpFile.Refresh();
@@ -85,7 +84,7 @@ public class WordApprover
                         File.Delete(oldTmpFile.FullName);
                     }
 
-                    File.WriteAllText(this.checkpointFile.FullName, JsonSerializer.Serialize(new CheckpointData(iterations)));
+                    await File.WriteAllTextAsync(this.checkpointFile.FullName, JsonSerializer.Serialize(new CheckpointData(iterations)), token);
 
                     checkpointStartTime = DateTime.Now;
                 }
