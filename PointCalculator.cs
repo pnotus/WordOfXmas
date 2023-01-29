@@ -1,6 +1,6 @@
 public class PointCalculator
 {
-    private string[] originalWords = {
+    private readonly string[] words = {
         "HYACINTER", //    30 408
         "TOMTELUVA", //   638 078
         "PLASTGRAN", //   638 078
@@ -10,7 +10,7 @@ public class PointCalculator
         "LJUSSTAKE", // 2 250 381
     };
 
-    private double[] originalWordPoints = {
+    private readonly double[] points = {
         1.5,
         2.5,
         2.5,
@@ -20,22 +20,24 @@ public class PointCalculator
         4,
     };
 
-    private readonly int originalWordIdx;
+    public string OriginalWord { get; }
+    public double ExcpectedPoints { get; }
 
-    public PointCalculator(int originalWordIdx)
+    public PointCalculator(int wordIndex)
     {
-        this.originalWordIdx = originalWordIdx;
+        this.OriginalWord = words[wordIndex];
+        this.ExcpectedPoints = points[wordIndex];
     }
 
-    public bool Calculate(string word)
+    public bool IsApproved(string wordToEvaluate)
     {
-        var word1 = originalWords[this.originalWordIdx].ToList();
-        var word2 = word.ToList();
+        var word1 = OriginalWord.ToList();
+        var word2 = wordToEvaluate.ToList();
 
-        var points = 0.0;
+        var calculatedPoints = 0.0;
         
-        var identicalChars = word1.Zip(word2).Where((c1, c2) => c1.Equals(c2)).Select((c) => c.Item1);
-        points += identicalChars.Count();
+        var identicalChars = word1.Zip(word2).Where((c1, c2) => c1.Equals(c2)).Select(c => c.Item1);
+        calculatedPoints += identicalChars.Count();
 
         foreach (var c in identicalChars)
         {
@@ -47,11 +49,11 @@ public class PointCalculator
         {
             if (word2.Contains(c))
             {
-                points += 0.5;
+                calculatedPoints += 0.5;
                 word2.Remove(c);
             }
         }
         
-        return points == this.originalWordPoints[this.originalWordIdx];
+        return calculatedPoints == this.ExcpectedPoints;
     }   
 }
