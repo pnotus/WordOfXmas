@@ -20,12 +20,14 @@ public class PointCalculator
         4,
     };
 
-    public string OriginalWord { get; }
+    private readonly string originalWord;
+
+    public string OriginalWord { get { return originalWord; } }
     public double ExcpectedPoints { get; }
 
     public PointCalculator(int wordIndex)
     {
-        this.OriginalWord = words[wordIndex];
+        this.originalWord = words[wordIndex];
         this.ExcpectedPoints = points[wordIndex];
     }
 
@@ -36,7 +38,7 @@ public class PointCalculator
 
         var calculatedPoints = 0.0;
         
-        var identicalChars = word1.Zip(word2).Where((c1, c2) => c1.Equals(c2)).Select(c => c.Item1);
+        var identicalChars = word1.Zip(word2).Where(c => c.Item1 == c.Item2).Select(c => c.Item1).ToArray();
         calculatedPoints += identicalChars.Count();
 
         foreach (var c in identicalChars)

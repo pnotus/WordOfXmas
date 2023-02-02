@@ -68,7 +68,8 @@ public class WordApprover
                 {
                     var checkpointStopTime = DateTime.Now;
                     var duration = checkpointStopTime - totalStartTime;
-                    Console.WriteLine($"{checkpointStopTime} - {destinationFile.Name} - Gör {checkpointSize / (checkpointStopTime - checkpointStartTime).TotalSeconds:N0} test/sekund, har testat {iterations:N0} kombinationer ({((double)iterations / (double)totalPermutations):P2}) och hittat {approved.Count:N0} godkända efter {duration.Hours:D2}:{duration.Minutes:D2}:{duration.Seconds:D2}.");
+                    var secondsSinceLastCheckpoint = (checkpointStopTime - checkpointStartTime).TotalSeconds;
+                    // Console.WriteLine($"{checkpointStopTime} - {destinationFile.Name} - Gör {checkpointSize / secondSinceLastCheckpoint:N0} test/sekund, har testat {iterations:N0} kombinationer ({((double)iterations / (double)totalPermutations):P2}) och hittat {approved.Count:N0} godkända efter {duration.Hours:D2}:{duration.Minutes:D2}:{duration.Seconds:D2}.");
 
                     tmpFile.Refresh();
                     if (tmpFile.Exists)
@@ -84,7 +85,7 @@ public class WordApprover
                         File.Delete(oldTmpFile.FullName);
                     }
 
-                    await File.WriteAllTextAsync(this.checkpointFile.FullName, JsonSerializer.Serialize(new CheckpointData(iterations)), token);
+                    await File.WriteAllTextAsync(this.checkpointFile.FullName, JsonSerializer.Serialize(new CheckpointData(iterations, secondsSinceLastCheckpoint)), token);
 
                     checkpointStartTime = DateTime.Now;
                 }
@@ -102,13 +103,13 @@ public class WordApprover
                 }
             }
         }
-        Console.WriteLine($"{DateTime.Now} - {destinationFile.Name} - KLAR! Hittade {approved.Count()} gorkända ord.");
+        Console.WriteLine($"{DateTime.Now} - {destinationFile.Name} - KLAR! Hittade {approved.Count()} godkända ord.");
         File.Move(tmpFile.FullName, this.destinationFile.FullName);
     }
 
     private string? CombineWords(string word1, string word2)
     {
-        var charCombinations = word1.ToCharArray().Zip(word2.ToCharArray(), (first, second) => (first, second));
+        var charCombinations = word1.ToCharArray().Zip(word2.ToCharArray());
 
         var result = new List<char>();
 
@@ -123,7 +124,9 @@ public class WordApprover
                 result.Add(c.Item2);
             }
             else if (c.Item2 == '*')
+            {
                 result.Add(c.Item1);
+            }
             else
             {
                 return null;
