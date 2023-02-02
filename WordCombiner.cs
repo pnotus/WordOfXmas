@@ -23,7 +23,6 @@ public class WordApprover
             approved = File.ReadLines(tmpFile.FullName).ToHashSet();
         }
         
-        this.wordList1 = wordList1;
         this.wordList2 = wordList2;
         
         this.checkpointFile = new FileInfo(Path.Combine(destinationFile.DirectoryName,
@@ -31,10 +30,18 @@ public class WordApprover
         if (this.checkpointFile.Exists)
         {
             this.checkpointData = JsonSerializer.Deserialize<CheckpointData>(File.ReadAllText(this.checkpointFile.FullName));
+
+            var quotient = Math.DivRem(this.checkpointData.Count, wordList1.Length, out long remainder);
+            
+            if (quotient > Int32.MaxValue) throw new Exception("Oväntat stort värde på variabeln");
+            int toSkipInWordList1 = (int)quotient;
+            this.wordList1 = wordList1[toSkipInWordList1..].ToArray();
+            this.checkpointData.Count = remainder;
         }
         else
         {
             this.checkpointData = new CheckpointData();
+            this.wordList1 = wordList1;
         }
         
     }
@@ -69,7 +76,7 @@ public class WordApprover
                     var checkpointStopTime = DateTime.Now;
                     var duration = checkpointStopTime - totalStartTime;
                     var secondsSinceLastCheckpoint = (checkpointStopTime - checkpointStartTime).TotalSeconds;
-                    // Console.WriteLine($"{checkpointStopTime} - {destinationFile.Name} - Gör {checkpointSize / secondSinceLastCheckpoint:N0} test/sekund, har testat {iterations:N0} kombinationer ({((double)iterations / (double)totalPermutations):P2}) och hittat {approved.Count:N0} godkända efter {duration.Hours:D2}:{duration.Minutes:D2}:{duration.Seconds:D2}.");
+                    Console.WriteLine($"{checkpointStopTime} - {destinationFile.Name} - Gör {checkpointSize / secondsSinceLastCheckpoint:N0} test/sekund, har testat {iterations:N0} kombinationer ({((double)iterations / (double)totalPermutations):P2}) och hittat {approved.Count:N0} godkända efter {duration.Hours:D2}:{duration.Minutes:D2}:{duration.Seconds:D2}.");
 
                     tmpFile.Refresh();
                     if (tmpFile.Exists)
@@ -109,30 +116,30 @@ public class WordApprover
 
     private string? CombineWords(string word1, string word2)
     {
-        var charCombinations = word1.ToCharArray().Zip(word2.ToCharArray());
-
         var result = new List<char>();
 
-        foreach (var c in charCombinations)
+        var w1 = word1.ToCharArray();
+        var w2 = word2.ToCharArray();
+        for (int i = 0; i < word1.Length; i++)
         {
-            if (c.Item1 == c.Item2)
+            if (w1[i] == w2[i])
             {
-                result.Add(c.Item1);
+                result.Add(w1[i]);
             }
-            else if (c.Item1 == '*')
+            else if (w1[i] == '*')
             {
-                result.Add(c.Item2);
+                result.Add(w2[i]);
             }
-            else if (c.Item2 == '*')
+            else if (w2[i] == '*')
             {
-                result.Add(c.Item1);
+                result.Add(w1[i]);
             }
             else
             {
                 return null;
-            }
+            }           
         }
-
+        
         return new string(result.ToArray());
     }
 }
