@@ -11,9 +11,12 @@ public class WordApprover
     private int checkpointSize = 50000000;
     private CheckpointData checkpointData;
     private readonly IEnumerable<PointCalculator> pointCalculators;
+    private long iterations;
+    private readonly long totalPermutations;
 
     public WordApprover(string[] wordList1, string[] wordList2, FileInfo destinationFile, int[] wordIndexes)
     {
+        this.totalPermutations = (long)wordList1.Length * wordList2.Length;
         this.pointCalculators = wordIndexes.Select(index => new PointCalculator(index));
         this.destinationFile = destinationFile;
         this.tmpFile = new FileInfo(Path.Combine(destinationFile.DirectoryName, destinationFile.Name + ".tmp"));
@@ -36,22 +39,21 @@ public class WordApprover
             if (quotient > Int32.MaxValue) throw new Exception("Oväntat stort värde på variabeln");
             int toSkipInWordList1 = (int)quotient;
             this.wordList1 = wordList1[toSkipInWordList1..].ToArray();
+            this.iterations = this.checkpointData.Count;
             this.checkpointData.Count = remainder;
         }
         else
         {
             this.checkpointData = new CheckpointData();
             this.wordList1 = wordList1;
+            this.iterations = 0;
         }
         
     }
 
     public async Task WriteApprovedAsync(CancellationToken token) 
     {
-        var totalPermutations = (long)wordList1.Length * wordList2.Length;
-        Console.WriteLine($"{DateTime.Now} - {destinationFile.Name} - Börjar leta giltiga ord bland {totalPermutations:N0} möjliga kombinationer. Tidigare körningar hade redan hittat {approved.Count:N0} ord på {this.checkpointData.Count:N0} iterationer.");
-        
-        long iterations = 0;
+        Console.WriteLine($"{DateTime.Now} - {destinationFile.Name} - Börjar leta giltiga ord bland {this.totalPermutations:N0} möjliga kombinationer. Tidigare körningar hade redan hittat {approved.Count:N0} ord på {this.checkpointData.Count:N0} iterationer.");
         
         var totalStartTime = DateTime.Now;
         var checkpointStartTime = totalStartTime;
@@ -63,7 +65,7 @@ public class WordApprover
         {
             foreach (var p1 in wordList2)
             {
-                iterations += 1;
+                this.iterations += 1;
 
                 if (this.checkpointData.Count > 0)
                 {
@@ -71,12 +73,12 @@ public class WordApprover
                     continue;
                 }
 
-                if (iterations % checkpointSize == 0)
+                if (this.iterations % checkpointSize == 0)
                 {
                     var checkpointStopTime = DateTime.Now;
                     var duration = checkpointStopTime - totalStartTime;
                     var secondsSinceLastCheckpoint = (checkpointStopTime - checkpointStartTime).TotalSeconds;
-                    Console.WriteLine($"{checkpointStopTime} - {destinationFile.Name} - Gör {checkpointSize / secondsSinceLastCheckpoint:N0} test/sekund, har testat {iterations:N0} kombinationer ({((double)iterations / (double)totalPermutations):P2}) och hittat {approved.Count:N0} godkända efter {duration.Hours:D2}:{duration.Minutes:D2}:{duration.Seconds:D2}.");
+                    Console.WriteLine($"{checkpointStopTime} - {destinationFile.Name} - Gör {checkpointSize / secondsSinceLastCheckpoint:N0} test/sekund, har testat {this.iterations:N0} kombinationer ({((double)this.iterations / (double)this.totalPermutations):P2}) och hittat {approved.Count:N0} godkända efter {duration.Hours:D2}:{duration.Minutes:D2}:{duration.Seconds:D2}.");
 
                     tmpFile.Refresh();
                     if (tmpFile.Exists)
@@ -92,7 +94,7 @@ public class WordApprover
                         File.Delete(oldTmpFile.FullName);
                     }
 
-                    await File.WriteAllTextAsync(this.checkpointFile.FullName, JsonSerializer.Serialize(new CheckpointData(iterations, secondsSinceLastCheckpoint)), token);
+                    await File.WriteAllTextAsync(this.checkpointFile.FullName, JsonSerializer.Serialize(new CheckpointData(this.iterations, secondsSinceLastCheckpoint)), token);
 
                     checkpointStartTime = DateTime.Now;
                 }

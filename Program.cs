@@ -1,13 +1,13 @@
 ﻿var dataDir = @"C:\Users\pontu\repos\WordOfXmas.net\data\";
 
-// new DataGrabber(dataDir, "approved_permutations_0_5_Part*.txt").CombineFiles("approved_permutations_0_5.txt");
+// new DataGrabber(dataDir, "approved_permutations_0_3_5_part*.txt").CombineFiles("approved_permutations_0_3_5_part.txt");
 // Console.WriteLine("Klar med att kombinera filer.");
 
 // new [] { 0, 3, 5 }.ToList().ForEach(number => new PointCalculator(number).IsApproved("DELKLTAUA"));
 // Environment.Exit(0);
 
-var approved_permutations_0 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_0.txt"));
-Console.WriteLine($"approved_permutations_0={approved_permutations_0.Length} kombinationer");
+// var approved_permutations_0 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_0.txt"));
+// Console.WriteLine($"approved_permutations_0={approved_permutations_0.Length} kombinationer");
 
 var approved_permutations_1 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_1.txt"));
 Console.WriteLine($"approved_permutations_1={approved_permutations_1.Length} kombinationer");
@@ -15,21 +15,25 @@ Console.WriteLine($"approved_permutations_1={approved_permutations_1.Length} kom
 var approved_permutations_2 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_2.txt"));
 Console.WriteLine($"approved_permutations_2={approved_permutations_2.Length} kombinationer");
 
-var approved_permutations_3 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_3.txt"));
-Console.WriteLine($"approved_permutations_3={approved_permutations_3.Length} kombinationer");
+// var approved_permutations_3 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_3.txt"));
+// Console.WriteLine($"approved_permutations_3={approved_permutations_3.Length} kombinationer");
 
 var approved_permutations_4 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_4.txt"));
 Console.WriteLine($"approved_permutations_4={approved_permutations_4.Length} kombinationer");
 
-var approved_permutations_5 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_5.txt"));
-Console.WriteLine($"approved_permutations_5={approved_permutations_5.Length} kombinationer");
+// var approved_permutations_5 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_5.txt"));
+// Console.WriteLine($"approved_permutations_5={approved_permutations_5.Length} kombinationer");
 
 var approved_permutations_6 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_6.txt"));
 Console.WriteLine($"approved_permutations_6={approved_permutations_6.Length} kombinationer");
 
-var approved_permutations_0_5 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_0_5.txt"));
-Console.WriteLine($"approved_permutations_0_5={approved_permutations_0_5.Length} kombinationer");
+// var approved_permutations_0_5 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_0_5.txt"));
+// Console.WriteLine($"approved_permutations_0_5={approved_permutations_0_5.Length} kombinationer");
+
+var approved_permutations_0_3_5 = File.ReadAllLines(Path.Combine(dataDir, "approved_permutations_0_3_5.txt"));
+Console.WriteLine($"approved_permutations_0_3_5={approved_permutations_0_3_5.Length} kombinationer");
 // Environment.Exit(0);
+
 
 // approved_permutations_0 =    30 408 kombinationer
 // approved_permutations_1 =   638 078 kombinationer
@@ -66,28 +70,45 @@ var approvers = new []
     // new WordApprover(approved_permutations_0, approved_permutations_5[187516..200910], CreateFileInfo($"approved_permutations_0_5_part{i++:D2}.txt"), new [] { 0, 5 }),
     // new WordApprover(approved_permutations_0, approved_permutations_5[200910..], CreateFileInfo($"approved_permutations_0_5_part{i++:D2}.txt"), new [] { 0, 5 }),
 
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[      0..185436], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[ 185436..370872], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[ 370872..556308], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[ 556308..741744], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[ 741744..927180], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[ 927180..1112616], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[1112616..1298052], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[1298052..1483488], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[1483488..1668924], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[1668924..1854360], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[1854360..2039796], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[2039796..2225232], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[2225232..2410668], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[2410668..2596104], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[2596104..2781540], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
-    new WordApprover(approved_permutations_3, approved_permutations_0_5[2781540..], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[      0..185436], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[ 185436..370872], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[ 370872..556308], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[ 556308..741744], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[ 741744..927180], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[ 927180..1112616], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[1112616..1298052], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[1298052..1483488], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[1483488..1668924], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[1668924..1854360], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[1854360..2039796], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[2039796..2225232], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[2225232..2410668], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[2410668..2596104], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[2596104..2781540], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+    // new WordApprover(approved_permutations_3, approved_permutations_0_5[2781540..], CreateFileInfo($"approved_permutations_0_3_5_part{i++:D2}.txt"), new [] { 0, 3, 5 }),
+
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[0..686234], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[686234..1372468], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[1372468..2058702], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[2058702..2744936], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[2744936..3431170], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[3431170..4117404], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[4117404..4803638], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[4803638..5489872], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[5489872..6176106], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[6176106..6862340], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[6862340..7548574], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[7548574..8234808], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[8234808..8921042], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[8921042..9607276], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[9607276..10293510], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
+    new WordApprover(approved_permutations_2, approved_permutations_0_3_5[10293510..], CreateFileInfo($"approved_permutations_0_2_3_5_part{i++:D2}.txt"), new [] { 0, 2, 3, 5 }),
 
 };
 
 ParallelOptions parallelOptions = new()
 {
-    MaxDegreeOfParallelism = 16
+    MaxDegreeOfParallelism = -1
 };
 
 await Parallel.ForEachAsync(approvers, parallelOptions, async (approver, token) => 
