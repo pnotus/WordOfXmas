@@ -4,7 +4,6 @@ services:
     - sleep
     - infinity
     build: .
-    run: 
     init: true
     volumes:
     - type: bind
