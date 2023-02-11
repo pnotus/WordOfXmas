@@ -1,0 +1,1 @@
+az vm deallocate --name woxmvm --resource-group woxm-compute
