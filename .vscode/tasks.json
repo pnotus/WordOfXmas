@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/WordOfXmas.net.csproj",
+                "${workspaceFolder}/src/WordOfXmas.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/src/WordOfXmas.net.csproj"
+                "${workspaceFolder}/src/WordOfXmas.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
